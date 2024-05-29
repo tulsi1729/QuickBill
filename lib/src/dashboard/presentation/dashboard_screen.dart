@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quick_bill/src/customers/presentation/view_customers.dart';
+import 'package:quick_bill/src/debug/red_container.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -6,12 +8,29 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, Type> items = {
+      "customers": ViewCustomers,
+    };
+    final Map<String, String> titlesMap = {
+      "customers": context.l10n.customersLabel,
+    };
+    final keys = items.keys;
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.dashboardTitle),
         elevation: 5,
       ),
-      body: const FlutterLogo(),
+      body: ListView.separated(
+          itemCount: keys.length,
+          separatorBuilder: (_, __) {
+            return const SizedBox(
+              height: 10,
+            );
+          },
+          itemBuilder: (context, index) {
+            final key = keys.elementAt(index);
+            return Text(titlesMap[key] ?? "");
+          }),
     );
   }
 }

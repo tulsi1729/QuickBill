@@ -1,4 +1,5 @@
 {
     "appTitle": "Quick Bill",
-    "dashboardTitle": "Dashboard"
+    "dashboardTitle": "Dashboard",
+    "customersLabel": "Customers"
 }
