@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "106825368642",
+    "project_id": "quick-bill-6b495",
+    "storage_bucket": "quick-bill-6b495.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106825368642:android:73d49d1a64ca322b2a19db",
+        "android_client_info": {
+          "package_name": "com.rightdevs.quick_bill"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCia9IrRti7hDQWDZKGgVgTGEwV1gDiRss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

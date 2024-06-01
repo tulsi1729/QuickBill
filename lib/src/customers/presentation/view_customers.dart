@@ -10,62 +10,68 @@ class ViewCustomers extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Customer> customers = ref.watch(customersProvider);
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddCustomer()),
-            );
-          },
-          child: const Icon(Icons.add_box),
-        ),
-        appBar: AppBar(
-          title: Text(context.l10n.viewCustomersTitle),
-          elevation: 5,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: customers.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: ListTile(
-                  title: Text(
-                    customers[index].name,
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          ref
-                              .read(customersProvider.notifier)
-                              .delete(customers[index]);
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddCustomer(
-                                      preFillCustomer: customers[index],
-                                      isEditMode: true,
-                                    )),
-                          );
-                        },
-                        icon: const Icon(Icons.edit),
-                      ),
-                    ],
-                  ),
-                ),
+    AsyncValue<List<Customer>> customersAsync = ref.watch(customersProvider);
+    return customersAsync.when(
+      data: (customers) => Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddCustomer()),
               );
             },
+            child: const Icon(Icons.add_box),
           ),
-        ));
+          appBar: AppBar(
+            title: Text(context.l10n.viewCustomersTitle),
+            elevation: 5,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: customers.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      customers[index].name,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            ref
+                                .read(customersProvider.notifier)
+                                .delete(customers[index]);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddCustomer(
+                                        preFillCustomer: customers[index],
+                                        isEditMode: true,
+                                      )),
+                            );
+                          },
+                          icon: const Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          )),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, stackTrace) => Text("Error: $error"),
+    );
   }
 }
