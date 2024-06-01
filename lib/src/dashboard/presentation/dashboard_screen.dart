@@ -29,7 +29,15 @@ class DashboardScreen extends StatelessWidget {
           },
           itemBuilder: (context, index) {
             final key = keys.elementAt(index);
-            return Text(titlesMap[key] ?? "");
+            return ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ViewCustomers()),
+                  );
+                },
+                child: Text(titlesMap[key] ?? ""));
           }),
     );
   }

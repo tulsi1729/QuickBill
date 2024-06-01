@@ -1,5 +1,11 @@
 {
     "appTitle": "Quick Bill",
     "dashboardTitle": "Dashboard",
-    "customersLabel": "Customers"
+    "customersLabel": "Customers",
+    "viewCustomersTitle":"View Customers",
+    "addCustomerTitle": "Add Customer",
+    "editCustomerTitle": "Edit Customer",
+    "saveCustomerLabel": "Save Customer",
+    "customerNameRequiredMessage": "Please enter customer name",
+    "customerLabelRequiredMessage": "Enter Customer Name"
 }
