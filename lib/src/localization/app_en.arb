@@ -7,5 +7,15 @@
     "editCustomerTitle": "Edit Customer",
     "saveCustomerLabel": "Save Customer",
     "customerNameRequiredMessage": "Please enter customer name",
-    "customerLabelRequiredMessage": "Enter Customer Name"
+    "customerLabelRequiredMessage": "Enter Customer Name",
+    "categoryLabel":"Category",
+    "viewCategoriesTitle":"View Categories",
+    "addCategoryTitle":"Add Category",
+    "categoryLabelRequiredMessage":"Enter Category Name",
+    "saveCategoryLabel":"Save Category",
+    "categoryNameRequiredMessage":"Please enter category name",
+    "categoryRequiredMessageDelete":"Category is deleted",
+    "categoryRequiredMessageNotDelete":"Category not deleted",
+    "customerRequiredMessageDelete":"Customer is deleted",
+    "customerRequiredMessageNotDelete":"Customer not deleted"
 }

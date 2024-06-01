@@ -41,9 +41,21 @@ class ViewCustomers extends ConsumerWidget {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          ref
+                          final isDeleteDone = ref
                               .read(customersProvider.notifier)
                               .delete(customers[index]);
+
+                          String message = "";
+                          if (isDeleteDone) {
+                            message =
+                                context.l10n.categoryRequiredMessageDelete;
+                          } else {
+                            message =
+                                context.l10n.categoryRequiredMessageNotDelete;
+                          }
+
+                          SnackBar snackBar = SnackBar(content: Text(message));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         icon: const Icon(Icons.delete),
                       ),
