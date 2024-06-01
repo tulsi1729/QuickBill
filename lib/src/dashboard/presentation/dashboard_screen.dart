@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_bill/src/customers/presentation/view_customers.dart';
-import 'package:quick_bill/src/debug/red_container.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -21,24 +20,25 @@ class DashboardScreen extends StatelessWidget {
         elevation: 5,
       ),
       body: ListView.separated(
-          itemCount: keys.length,
-          separatorBuilder: (_, __) {
-            return const SizedBox(
-              height: 10,
-            );
-          },
-          itemBuilder: (context, index) {
-            final key = keys.elementAt(index);
-            return ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ViewCustomers()),
-                  );
-                },
-                child: Text(titlesMap[key] ?? ""));
-          }),
+        itemCount: keys.length,
+        separatorBuilder: (_, __) {
+          return const SizedBox(
+            height: 10,
+          );
+        },
+        itemBuilder: (context, index) {
+          final key = keys.elementAt(index);
+          return ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ViewCustomers()),
+                );
+              },
+              child: Text(titlesMap[key] ?? ""));
+        },
+      ),
     );
   }
 }
