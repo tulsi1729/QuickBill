@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_bill/src/categories/presentation/view_categories.dart';
 import 'package:quick_bill/src/customers/presentation/view_customers.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 
@@ -7,13 +8,15 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Type> items = {
-      "customers": ViewCustomers,
+    final keys = ["customers", "category"];
+    final Map<String, Widget Function(BuildContext)> items = {
+      "customers": (context) => const ViewCustomers(),
+      "category": (context) => const ViewCategories()
     };
     final Map<String, String> titlesMap = {
       "customers": context.l10n.customersLabel,
+      "category": context.l10n.categoryLabel,
     };
-    final keys = items.keys;
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.dashboardTitle),
@@ -33,10 +36,14 @@ class DashboardScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ViewCustomers()),
+                      builder:
+                          items[key] ?? (context) => const Text("Not Found")),
                 );
               },
-              child: Text(titlesMap[key] ?? ""));
+              child: Text(
+                titlesMap[key] ?? "",
+                style: const TextStyle(fontSize: 20),
+              ));
         },
       ),
     );
