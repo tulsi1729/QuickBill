@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quick_bill/src/categories/models/categories.dart';
+import 'package:quick_bill/src/categories/models/category.dart';
 import 'package:quick_bill/src/categories/presentation/view_categories_notifier.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 import 'package:uuid/uuid.dart';
