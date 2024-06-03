@@ -4,11 +4,7 @@ import 'package:quick_bill/src/customers/models/customer.dart';
 class ViewCustomersNotifier extends Notifier<List<Customer>> {
   @override
   List<Customer> build() {
-    return const <Customer>[
-      Customer(guid: '1', name: "MIhir"),
-      Customer(guid: '2', name: "alice"),
-      Customer(guid: '3', name: "bob"),
-    ];
+    return const <Customer>[];
   }
 
   void add(Customer newCustomer) {

@@ -3,20 +3,23 @@ import 'package:quick_bill/src/categories/presentation/view_categories.dart';
 import 'package:quick_bill/src/customers/presentation/view_customers.dart';
 import 'package:quick_bill/src/debug/red_container.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
+import 'package:quick_bill/src/products/presentation/view_products.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final keys = ["customers", "category"];
+    final keys = ["customers", "category", "product"];
     final Map<String, Widget Function(BuildContext)> items = {
       "customers": (context) => const ViewCustomers(),
-      "category": (context) => const ViewCategories()
+      "category": (context) => const ViewCategories(),
+      "product": (context) => const ViewProducts(),
     };
     final Map<String, String> titlesMap = {
       "customers": context.l10n.customersLabel,
       "category": context.l10n.categoryLabel,
+      "product": context.l10n.productLabel,
     };
     return Scaffold(
       appBar: AppBar(

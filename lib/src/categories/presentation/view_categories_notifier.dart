@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quick_bill/src/categories/models/categories.dart';
+import 'package:quick_bill/src/categories/models/category.dart';
 
 class ViewCategoriesNotifier extends Notifier<List<Category>> {
   @override
