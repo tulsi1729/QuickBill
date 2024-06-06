@@ -19,7 +19,7 @@ class _AddProductState extends ConsumerState<AddProduct> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    List<Category> categories = ref.watch(categoriesProvider);
+    AsyncValue<List<Category>> categoriesAsync = ref.watch(categoriesProvider);
     final addProductController =
         TextEditingController(text: widget.preFillProduct?.name ?? '');
     final priceProductController =
@@ -79,31 +79,40 @@ class _AddProductState extends ConsumerState<AddProduct> {
                   ),
                   const SizedBox(width: 20),
                   Flexible(
-                    child: DropdownButtonFormField<String>(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return context.l10n.productCategorySelectedMessage;
-                        } else {
-                          return null;
-                        }
-                      },
-                      decoration: InputDecoration(
-                        labelText:
-                            context.l10n.productCategorySelectedLabelMessage,
-                      ),
-                      onChanged: (value) {
-                        // setState(() {
-                        selectedCategoryGUID = value!;
-                        // });
-                      },
-                      value: selectedCategoryGUID,
-                      icon: const Icon(Icons.menu),
-                      items: categories.map((valueItem) {
-                        return DropdownMenuItem<String>(
-                          value: valueItem.guid,
-                          child: Text(valueItem.name),
+                    child: categoriesAsync.when(
+                      data: (categories) {
+                        return DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return context
+                                  .l10n.productCategorySelectedMessage;
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(
+                            labelText: context
+                                .l10n.productCategorySelectedLabelMessage,
+                          ),
+                          onChanged: (value) {
+                            // setState(() {
+                            selectedCategoryGUID = value!;
+                            // });
+                          },
+                          value: selectedCategoryGUID,
+                          icon: const Icon(Icons.menu),
+                          items: categories.map((valueItem) {
+                            return DropdownMenuItem<String>(
+                              value: valueItem.guid,
+                              child: Text(valueItem.name),
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
+                      },
+                      error: (error, _) => Text(error.toString()),
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   ),
                 ],
