@@ -4,7 +4,12 @@ import 'package:quick_bill/src/customers/models/customer.dart';
 class ViewCustomersNotifier extends Notifier<List<Customer>> {
   @override
   List<Customer> build() {
-    return const <Customer>[];
+    return const <Customer>[
+      Customer(guid: "1", name: "Tom"),
+      Customer(guid: "2", name: "James"),
+      Customer(guid: "3", name: "Jack"),
+      Customer(guid: "4", name: "Leo"),
+    ];
   }
 
   void add(Customer newCustomer) {
@@ -23,9 +28,11 @@ class ViewCustomersNotifier extends Notifier<List<Customer>> {
   }
 
   bool delete(Customer customer) {
-    bool deleted = state.remove(customer);
+    List<Customer> temp = [...state];
+    bool isDeleted = temp.remove(customer);
+    state = temp;
     state = [...state];
-    return deleted;
+    return isDeleted;
   }
 }
 

@@ -12,4 +12,8 @@ class Product {
     required this.categoryGuid,
     this.description,
   });
+
+  String toString() {
+    return 'Product{ guid: $guid, name: $name, price: $price, description: $description, categoryGuid: $categoryGuid }';
+  }
 }

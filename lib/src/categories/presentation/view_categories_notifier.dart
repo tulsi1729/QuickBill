@@ -7,9 +7,8 @@ class ViewCategoriesNotifier extends Notifier<List<Category>> {
   @override
   List<Category> build() {
     return <Category>[
-      Category(guid: '1', name: "Cake"),
-      Category(guid: '2', name: "Bread"),
-      Category(guid: '3', name: "Pau"),
+      Category(guid: '1', name: "Birthday Cake"),
+      Category(guid: '2', name: "Marriage Cake"),
     ];
   }
 

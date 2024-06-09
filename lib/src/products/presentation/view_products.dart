@@ -14,7 +14,6 @@ class ViewProducts extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<Product> products = ref.watch(productsProvider);
     List<Category> categories = ref.watch(categoriesProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.viewProductTitle),
@@ -43,29 +42,34 @@ class ViewProducts extends ConsumerWidget {
                           products[index].name,
                           style: const TextStyle(fontSize: 30),
                         ),
-                        // subtitle: products[index].description == null
-                        //     ? null
-                        //     : Text(products[index].description!),
-                        subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(products[index].description!,
-                                  style: const TextStyle(fontSize: 20)),
-                              Row(children: [
-                                Text(
-                                  '${products[index].price}  ₹',
-                                  style: const TextStyle(fontSize: 20),
+                        subtitle: Column(children: <Widget>[
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                products[index].description == null
+                                    ? Container()
+                                    : Text(
+                                        products[index].description!,
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${products[index].price}₹',
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                        categories
+                                            .firstWhere((element) =>
+                                                element.guid ==
+                                                products[index].categoryGuid)
+                                            .name,
+                                        style: const TextStyle(fontSize: 20))
+                                  ],
                                 ),
-                                const Spacer(),
-                                Text(
-                                    categories
-                                        .firstWhere((element) =>
-                                            element.guid ==
-                                            products[index].categoryGuid)
-                                        .name,
-                                    style: const TextStyle(fontSize: 20)),
                               ]),
-                            ]),
+                        ]),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[

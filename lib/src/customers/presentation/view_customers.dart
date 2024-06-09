@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/customers/models/customer.dart';
 import 'package:quick_bill/src/customers/presentation/add_customer.dart';
 import 'package:quick_bill/src/customers/presentation/view_customers_notifier.dart';
+import 'package:quick_bill/src/entry/entry.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 
 class ViewCustomers extends ConsumerWidget {
@@ -12,19 +13,16 @@ class ViewCustomers extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<Customer> customers = ref.watch(customersProvider);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddCustomer()),
-          );
-        },
-        child: const Icon(Icons.add_box),
-      ),
       appBar: AppBar(
         title: Text(context.l10n.viewCustomersTitle),
         elevation: 5,
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddCustomer()));
+          },
+          child: const Icon(Icons.add)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -35,6 +33,13 @@ class ViewCustomers extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Entry(
+                                      customerName: customers[index].name)));
+                        },
                         title: Text(
                           customers[index].name,
                           style: const TextStyle(fontSize: 30),
@@ -51,10 +56,10 @@ class ViewCustomers extends ConsumerWidget {
                                 String message = "";
                                 if (isDeleteDone) {
                                   message = context
-                                      .l10n.categoryRequiredMessageDelete;
+                                      .l10n.customerRequiredMessageDelete;
                                 } else {
                                   message = context
-                                      .l10n.categoryRequiredMessageNotDelete;
+                                      .l10n.customerRequiredMessageNotDelete;
                                 }
 
                                 SnackBar snackBar =
@@ -77,6 +82,18 @@ class ViewCustomers extends ConsumerWidget {
                               },
                               icon: const Icon(Icons.edit),
                             ),
+                            // IconButton(
+                            //   onPressed: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) => AddEntry(
+                            //                 customerName: customers[index].name,
+                            //               )),
+                            //     );
+                            //   },
+                            //   icon: const Icon(Icons.add_box_sharp),
+                            // ),
                           ],
                         ),
                       ),

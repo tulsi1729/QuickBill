@@ -1,10 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/products/models/product.dart';
+import 'package:uuid/uuid.dart';
 
 class ViewProductsNotifier extends Notifier<List<Product>> {
   @override
   List<Product> build() {
-    return const <Product>[];
+    return <Product>[
+      const Product(
+          guid: "1",
+          name: "chocolate",
+          price: 100.0,
+          description: "tulsi",
+          categoryGuid: '1'),
+      const Product(guid: "2", name: "Mango", price: 150.0, categoryGuid: '2'),
+      const Product(
+          guid: "3", name: "Strawberry", price: 150.0, categoryGuid: '2'),
+    ];
   }
 
   void add(Product product) {
