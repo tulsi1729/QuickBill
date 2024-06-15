@@ -22,7 +22,7 @@ class _AddEntryState extends ConsumerState<AddEntry> {
   @override
   Widget build(BuildContext context) {
     final addQualityController = TextEditingController();
-    List<Product> products = ref.watch(productsProvider);
+    AsyncValue<List<Product>> productsAsync = ref.watch(productsProvider);
     Map<String, BuyingProduct> buyingProductMap =
         ref.watch(buyingProductProvider);
     return Form(
@@ -53,37 +53,43 @@ class _AddEntryState extends ConsumerState<AddEntry> {
                   Row(
                     children: [
                       Flexible(
-                        child: DropdownButtonFormField(
-                          validator: (value) {
-                            if (value == null) {
-                              return "Select Product";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (value) {
-                            ref.read(selectedProductProvider.notifier).state =
-                                value;
-                          },
-                          decoration: const InputDecoration(
-                              labelText: "select product",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                Radius.circular(5.0),
-                              ))),
-                          value: ref.watch(selectedProductProvider),
-                          icon: const Icon(Icons.arrow_drop_down),
-                          items: products.map((valueItem) {
-                            return DropdownMenuItem<Product>(
-                              value: valueItem,
-                              child: Column(
-                                children: [
-                                  Text(valueItem.name),
-                                  Text(valueItem.price.toString()),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                        child: productsAsync.when(
+                          data: (products) => DropdownButtonFormField(
+                            validator: (value) {
+                              if (value == null) {
+                                return "Select Product";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              ref.read(selectedProductProvider.notifier).state =
+                                  value;
+                            },
+                            decoration: const InputDecoration(
+                                labelText: "select product",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ))),
+                            value: ref.watch(selectedProductProvider),
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items: products.map((valueItem) {
+                              return DropdownMenuItem<Product>(
+                                value: valueItem,
+                                child: Column(
+                                  children: [
+                                    Text(valueItem.name),
+                                    Text(valueItem.price.toString()),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          error: (error, _) => Text(error.toString()),
                         ),
                       ),
                       const SizedBox(
