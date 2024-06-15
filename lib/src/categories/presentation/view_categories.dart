@@ -39,23 +39,44 @@ class ViewCategories extends ConsumerWidget {
                           children: <Widget>[
                             IconButton(
                                 onPressed: () {
-                                  final isDeleteDone = ref
-                                      .read(categoriesProvider.notifier)
-                                      .delete(categories[index]);
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                        title: const Text(
+                                            'Are you sure you want to delete?'),
+                                        content: const Text(
+                                            'Deleting category will delete all products in the same category as well'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              bool isDeleteDone = ref
+                                                  .read(categoriesProvider
+                                                      .notifier)
+                                                  .delete(categories[index]);
+                                              String message = "";
+                                              if (isDeleteDone) {
+                                                message = context.l10n
+                                                    .customerRequiredMessageDelete;
+                                              } else {
+                                                message = context.l10n
+                                                    .customerRequiredMessageNotDelete;
+                                              }
 
-                                  String message = "";
-                                  if (isDeleteDone) {
-                                    message = context
-                                        .l10n.categoryRequiredMessageDelete;
-                                  } else {
-                                    message = context
-                                        .l10n.categoryRequiredMessageNotDelete;
-                                  }
-
-                                  SnackBar snackBar =
-                                      SnackBar(content: Text(message));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                              SnackBar snackBar = SnackBar(
+                                                  content: Text(message));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('YES'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('NO'),
+                                          ),
+                                        ]),
+                                  );
                                 },
                                 icon: const Icon(Icons.delete)),
                             IconButton(

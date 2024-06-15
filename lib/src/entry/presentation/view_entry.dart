@@ -3,25 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/categories/presentation/product_price.dart';
-import 'package:quick_bill/src/entry/add_entry.dart';
-import 'package:quick_bill/src/entry/model/purched_product.dart';
-import 'package:quick_bill/src/entry/presentation/entry_notifier.dart';
+import 'package:quick_bill/src/entry/model/entry.dart';
+import 'package:quick_bill/src/entry/presentation/add_entry.dart';
+import 'package:quick_bill/src/entry/presentation/view_entry_notifier.dart';
 
-class Entry extends ConsumerStatefulWidget {
-  const Entry({super.key, required this.customerName});
+class ViewEntry extends ConsumerStatefulWidget {
+  const ViewEntry({super.key, required this.customerName});
   final String customerName;
 
   @override
-  ConsumerState<Entry> createState() => EntryState();
+  ConsumerState<ViewEntry> createState() => EntryState();
 }
 
-class EntryState extends ConsumerState<Entry> {
+class EntryState extends ConsumerState<ViewEntry> {
   @override
   Widget build(BuildContext context) {
-    List<PurchasedProduct> purchasedProduct = ref.watch(entryProvider);
+    purchasedProductFunction(purchasedProduct) {
+      return purchasedProduct
+          .map((product) => product.productPrice * product.quantity)
+          .fold(0.0, (previousValue, element) => previousValue + element);
+    }
+
+    String getDate(String dateString) {
+      DateTime dateObject = DateTime.parse(dateString);
+      return "${dateObject.day}/${dateObject.month}/${dateObject.year}/${dateObject.hour}:${dateObject.minute} ";
+    }
+
+    List<Entry> entries = ref.watch(entriesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Entry for ${widget.customerName} "),
+        title: Text("ViewEntry for ${widget.customerName} "),
         elevation: 5,
         actions: [
           IconButton(
@@ -39,21 +50,30 @@ class EntryState extends ConsumerState<Entry> {
         children: [
           Flexible(
             child: ListView.builder(
-                itemCount: purchasedProduct.length,
+                itemCount: entries.length,
                 itemBuilder: ((context, index) {
                   return Card(
                     child: ListTile(
-                      title: Text(purchasedProduct[index].productName),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(entries[index].productName,
+                              style: const TextStyle(fontSize: 20)),
+                          Text(
+                            getDate(entries[index].createdOn),
+                          )
+                        ],
+                      ),
                       subtitle: Row(
                         children: [
                           Text(
-                            'Quantity : ${purchasedProduct[index].quantity}',
+                            'Quantity : ${entries[index].quantity}',
                           ),
                           const SizedBox(
-                            width: 80,
+                            width: 40,
                           ),
                           Text(
-                              'ProductPrice : ${purchasedProduct[index].productPrice.toString()} ₹'),
+                              'ProductPrice : ${entries[index].productPrice.toString()} ₹'),
                         ],
                       ),
                     ),
@@ -68,7 +88,7 @@ class EntryState extends ConsumerState<Entry> {
           border: Border.all(),
         ),
         child: Text(
-          "PurchasedProduct TotalPrice : ${ref.read(entryProvider).map((product) => product.productPrice * product.quantity).fold(0.0, (previousValue, element) => previousValue + element)} ₹",
+          "PurchasedProduct TotalPrice : ${purchasedProductFunction(entries)} ₹",
           style: const TextStyle(fontSize: 22),
         ),
       ),

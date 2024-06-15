@@ -32,7 +32,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: Scaffold(
         body: Center(
           child: _widgetOption.elementAt(currentPageIndex),
         ),
@@ -57,6 +60,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 icon: Icon(Icons.category_outlined),
                 label: "Categories"),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

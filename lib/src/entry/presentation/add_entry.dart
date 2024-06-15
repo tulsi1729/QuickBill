@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/entry/model/buying_product.dart';
+import 'package:quick_bill/src/entry/model/entry.dart';
 import 'package:quick_bill/src/entry/presentation/buying_product_Notifier.dart';
 import 'package:quick_bill/src/entry/presentation/selected_product_provider.dart';
+import 'package:quick_bill/src/entry/presentation/view_entry_notifier.dart';
 import 'package:quick_bill/src/products/models/product.dart';
 import 'package:quick_bill/src/products/presentation/view_products_notifier.dart';
 
@@ -109,16 +111,19 @@ class _AddEntryState extends ConsumerState<AddEntry> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final buyingProduct = BuyingProduct(
-                            quantity: int.parse(addQualityController.text),
-                            p: ref.watch(selectedProductProvider)!,
-                          );
-
-                          ref.read(buyingProductProvider.notifier).add(
-                              ref.read(selectedProductProvider)!.guid,
-                              buyingProduct);
+                        if (!_formKey.currentState!.validate()) {
+                          return;
                         }
+                        final buyingProduct = BuyingProduct(
+                          quantity: int.parse(addQualityController.text),
+                          p: ref.watch(selectedProductProvider)!,
+                        );
+
+                        ref.read(buyingProductProvider.notifier).add(
+                              ref.read(selectedProductProvider)!.guid,
+                              buyingProduct,
+                            );
+                        FocusScope.of(context).unfocus();
                       },
                       child: const Text(
                         "Add",
@@ -185,7 +190,23 @@ class _AddEntryState extends ConsumerState<AddEntry> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        List<Entry> entries = ref
+                            .read(buyingProductProvider)
+                            .values
+                            .map((buyingProduct) {
+                          return Entry(
+                              productName: buyingProduct.name,
+                              quantity: buyingProduct.quantity,
+                              productPrice: buyingProduct.price,
+                              createdOn: DateTime.now().toString(),
+                              customerGUID: buyingProduct.categoryGuid);
+                        }).toList();
+                        ref.read(entriesProvider.notifier).add(entries);
+
+                        Navigator.pop(context);
+                        ref.read(buyingProductProvider.notifier).clear();
+                      },
                       child: const Text('Save Entry'),
                     ),
                   ],

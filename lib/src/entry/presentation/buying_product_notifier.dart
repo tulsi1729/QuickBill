@@ -30,6 +30,10 @@ class BuyingProductNotifier extends Notifier<Map<String, BuyingProduct>> {
     temp.remove(guid);
     state = {...temp};
   }
+
+  void clear() {
+    state = {};
+  }
 }
 
 final buyingProductProvider =

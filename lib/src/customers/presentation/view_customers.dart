@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/customers/models/customer.dart';
 import 'package:quick_bill/src/customers/presentation/add_customer.dart';
 import 'package:quick_bill/src/customers/presentation/view_customers_notifier.dart';
-import 'package:quick_bill/src/entry/entry.dart';
+import 'package:quick_bill/src/entry/presentation/view_entry.dart';
 import 'package:quick_bill/src/localization/app_localizations_context.dart';
 
 class ViewCustomers extends ConsumerWidget {
@@ -37,7 +37,7 @@ class ViewCustomers extends ConsumerWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Entry(
+                                  builder: (context) => ViewEntry(
                                       customerName: customers[index].name)));
                         },
                         title: Text(
@@ -48,24 +48,45 @@ class ViewCustomers extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             IconButton(
-                              onPressed: () {
-                                final isDeleteDone = ref
-                                    .read(customersProvider.notifier)
-                                    .delete(customers[index]);
+                              onPressed: () => {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                      title: const Text(
+                                          'Are you sure you want to delete?'),
+                                      content: const Text(
+                                          'Deleting customer will delete customer-specific information as well'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            bool isDeleteDone = ref
+                                                .read(
+                                                    customersProvider.notifier)
+                                                .delete(customers[index]);
+                                            String message = "";
+                                            if (isDeleteDone) {
+                                              message = context.l10n
+                                                  .customerRequiredMessageDelete;
+                                            } else {
+                                              message = context.l10n
+                                                  .customerRequiredMessageNotDelete;
+                                            }
 
-                                String message = "";
-                                if (isDeleteDone) {
-                                  message = context
-                                      .l10n.customerRequiredMessageDelete;
-                                } else {
-                                  message = context
-                                      .l10n.customerRequiredMessageNotDelete;
-                                }
-
-                                SnackBar snackBar =
-                                    SnackBar(content: Text(message));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                            SnackBar snackBar = SnackBar(
+                                                content: Text(message));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('YES'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('NO'),
+                                        ),
+                                      ]),
+                                ),
                               },
                               icon: const Icon(Icons.delete),
                             ),

@@ -75,22 +75,43 @@ class ViewProducts extends ConsumerWidget {
                           children: <Widget>[
                             IconButton(
                                 onPressed: () {
-                                  final isDeleteDone = ref
-                                      .read(productsProvider.notifier)
-                                      .delete(products[index]);
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                        title: const Text('Alert'),
+                                        content: const Text(
+                                            'Are you sure you want to delete?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              bool isDeleteDone = ref
+                                                  .read(
+                                                      productsProvider.notifier)
+                                                  .delete(products[index]);
+                                              String message = "";
+                                              if (isDeleteDone) {
+                                                message = context.l10n
+                                                    .customerRequiredMessageDelete;
+                                              } else {
+                                                message = context.l10n
+                                                    .customerRequiredMessageNotDelete;
+                                              }
 
-                                  String message = '';
-                                  if (isDeleteDone) {
-                                    message =
-                                        context.l10n.productIsDeletedMessage;
-                                  } else {
-                                    message =
-                                        context.l10n.productNotDeletedMessage;
-                                  }
-                                  SnackBar snackBar =
-                                      SnackBar(content: Text(message));
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                              SnackBar snackBar = SnackBar(
+                                                  content: Text(message));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('YES'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text('NO'),
+                                          ),
+                                        ]),
+                                  );
                                 },
                                 icon: const Icon(Icons.delete)),
                             IconButton(
