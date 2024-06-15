@@ -15,10 +15,8 @@ class ViewCustomers extends ConsumerWidget {
       data: (customers) => Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddCustomer()),
-            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AddCustomer()));
           },
           child: const Icon(Icons.add_box),
         ),

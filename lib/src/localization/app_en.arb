@@ -2,14 +2,14 @@
     "appTitle": "Quick Bill",
     "dashboardTitle": "Dashboard",
     "customersLabel": "Customers",
-    "viewCustomersTitle":"View Customers",
+    "viewCustomersTitle":"Customers",
     "addCustomerTitle": "Add Customer",
     "editCustomerTitle": "Edit Customer",
     "saveCustomerLabel": "Save Customer",
     "customerNameRequiredMessage": "Please enter customer name",
     "customerLabelRequiredMessage": "Enter Customer Name",
     "categoryLabel":"Category",
-    "viewCategoriesTitle":"View Categories",
+    "viewCategoriesTitle":"Categories",
     "addCategoryTitle":"Add Category",
     "categoryLabelRequiredMessage":"Enter Category Name",
     "saveCategoryLabel":"Save Category",
@@ -20,7 +20,7 @@
     "customerRequiredMessageNotDelete":"Customer not deleted",
     "productLabel":"Product",
     "addProductTitle":"Add Product",
-    "viewProductTitle":"View Product",
+    "viewProductTitle":"Products",
     "productNameLabelRequiredMessage":"Enter Product Name",
     "productDescriptionLabelRequiredMessage":"Enter Product Description",
     "productCategoryLabelRequiredMessage":"Enter Product category",
@@ -35,5 +35,6 @@
     "productCategorySelectedLabelMessage":" Select category",
     "noProductMessage":"No Products",
     "noCategoryMessage":"No Categories",
-    "noCustomerMessage":"No Customer"
+    "noCustomerMessage":"No Customer",
+    "entryLabel":"Entry"
 }
