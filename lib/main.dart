@@ -14,13 +14,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  if (kDebugMode) {
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: false,
-    );
-    FirebaseFirestore.instance.useFirestoreEmulator(
-        Platform.isAndroid ? '10.0.2.2' : 'localhost', 8080);
-  }
+  // if (kDebugMode) {
+  //   FirebaseFirestore.instance.settings = const Settings(
+  //     persistenceEnabled: false,
+  //   );
+  //   FirebaseFirestore.instance.useFirestoreEmulator(
+  //       Platform.isAndroid ? '10.0.2.2' : 'localhost', 8080);
+  // }
   runApp(const ProviderScope(child: MyApp()));
 }
 
