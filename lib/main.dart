@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bill/src/dashboard/presentation/dashboard_screen.dart';
+import 'package:quick_bill/src/localization/app_localizations.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
